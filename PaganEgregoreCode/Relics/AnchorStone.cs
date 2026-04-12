@@ -1,35 +1,31 @@
-using BaseLib.Relics;
-using MegaCrit.Sts2.Core.Relics;
+using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Combat;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Models;
+using PaganEgregore.Character;
 
 namespace PaganEgregore.Relics;
 
 /// <summary>
-/// ANCHOR STONE — The Egregore's starter relic.
-///
-/// Effect: At the start of each combat, gain 1 Devotion.
-///
-/// Flavour: A shard of obsidian worn smooth by generations of ritual hands.
-///          The congregation's intent is baked into its surface.
+/// ANCHOR STONE — starter relic.
+/// At the start of each combat, gain 6 block.
+/// Simple defensive bonus for the early game.
 /// </summary>
-public class AnchorStone : CustomRelicModel
+[Pool(typeof(EgregoreRelicPool))]
+public sealed class AnchorStone : CustomRelicModel
 {
-    public override string RelicId   => $"{PaganEgregoreMod.ID}:AnchorStone";
-    public override string RelicName => "Anchor Stone";
-    public override RelicTier Tier   => RelicTier.Starter;
+    public override RelicRarity Rarity => RelicRarity.Starter;
 
-    public override string Description =>
-        "At the start of each combat, gain 1 !Devotion!.";
-
-    public override string FlavorText =>
-        "\"Belief given form. Form given power.\"";
-
-    public override string ArtworkPath =>
-        "res://PaganEgregore/artwork/relics/anchor_stone.png";
-
-    // Called at the start of every combat.
-    public override void OnCombatStart()
+    protected override async Task AfterSideTurnStart(
+        CombatState combatState,
+        Creature owner,
+        bool isCurrentSide)
     {
-        // TODO: add 1 Devotion to the player via the game API
-        Flash(); // built-in BaseLib relic pulse animation
+        // Only trigger on the player's first turn of combat (round 1)
+        if (!isCurrentSide || combatState.RoundNumber != 1) return;
+
+        await CreatureCmd.GainBlock(owner, 6);
+        Flash();
     }
 }

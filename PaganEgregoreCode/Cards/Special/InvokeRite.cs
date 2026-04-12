@@ -1,37 +1,36 @@
-using BaseLib.Cards;
-using MegaCrit.Sts2.Core.Cards;
+using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+using PaganEgregore.Character;
 
 namespace PaganEgregore.Cards.Special;
 
 /// <summary>
-/// INVOKE RITE — starter signature card.
-/// Generates 1 Devotion and draws 1 card.
-/// This is the Egregore's primary Devotion engine in the early game.
+/// INVOKE RITE — signature starter card.
+/// Draw 2 cards for 1 energy. Simple early-game card advantage.
 /// </summary>
-public class InvokeRite : CustomCardModel
+[Pool(typeof(EgregoreCardPool))]
+public sealed class InvokeRite() : CustomCardModel(
+    energyCost: 1,
+    type:       CardType.Skill,
+    rarity:     CardRarity.Basic,
+    targetType: TargetType.None)
 {
-    public override string CardId   => $"{PaganEgregoreMod.ID}:InvokeRite";
-    public override string CardName => "Invoke Rite";
-    public override CardType Type   => CardType.Skill;
-    public override CardRarity Rarity => CardRarity.Basic;
-    public override int EnergyCost  => 0;
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new MagicVar(2m, ValueProp.Move)]; // 2 = cards drawn
 
-    public override string Description =>
-        "Gain 1 !Devotion!. Draw 1 card.";
-
-    public override string ArtworkPath =>
-        "res://PaganEgregore/artwork/cards/invoke_rite.png";
-
-    public override void Use()
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // TODO: add 1 Devotion to the player
-        // TODO: draw 1 card
+        await DrawCmd.Draw(DynamicVars.Magic.IntValue)
+            .FromSource(this)
+            .Execute(choiceContext);
     }
 
-    public override InvokeRite GetUpgradedCopy()
+    protected override void OnUpgrade()
     {
-        var copy = (InvokeRite)base.GetUpgradedCopy();
-        copy.Description = "Gain 2 !Devotion!. Draw 1 card.";
-        return copy;
+        DynamicVars.Magic.UpgradeValueBy(1m); // draw 2 → 3
     }
 }

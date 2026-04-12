@@ -1,39 +1,38 @@
-using BaseLib.Cards;
-using MegaCrit.Sts2.Core.Cards;
+using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+using PaganEgregore.Character;
 
 namespace PaganEgregore.Cards.Special;
 
 /// <summary>
 /// VEIL DEFEND — starter Defend replacement.
-/// Gain block. If Devotion was spent this turn, gain bonus block.
+/// Functionally identical to a basic Defend for now.
 /// </summary>
-public class VeilDefend : CustomCardModel
+[Pool(typeof(EgregoreCardPool))]
+public sealed class VeilDefend() : CustomCardModel(
+    energyCost: 1,
+    type:       CardType.Skill,
+    rarity:     CardRarity.Basic,
+    targetType: TargetType.Self)
 {
-    public override string CardId   => $"{PaganEgregoreMod.ID}:VeilDefend";
-    public override string CardName => "Veil Defend";
-    public override CardType Type   => CardType.Skill;
-    public override CardRarity Rarity => CardRarity.Basic;
-    public override int EnergyCost  => 1;
+    public override bool GainsBlock => true;
 
-    public override int BaseBlock   => 5;
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
 
-    public override string Description =>
-        "Gain [B] Block. If !Devotion! was spent this turn, gain 3 additional Block.";
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new BlockVar(5m, ValueProp.Move)];
 
-    public override string ArtworkPath =>
-        "res://PaganEgregore/artwork/cards/veil_defend.png";
-
-    public override void Use()
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // TODO: call game API to gain block
-        // TODO: check if Devotion was spent this turn for bonus block
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
     }
 
-    public override VeilDefend GetUpgradedCopy()
+    protected override void OnUpgrade()
     {
-        var copy = (VeilDefend)base.GetUpgradedCopy();
-        copy.BaseBlock   = 8;
-        copy.Description = "Gain [B] Block. If !Devotion! was spent this turn, gain 5 additional Block.";
-        return copy;
+        DynamicVars.Block.UpgradeValueBy(3m); // 5 → 8
     }
 }

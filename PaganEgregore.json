@@ -1,16 +1,15 @@
 {
     "id": "PaganEgregore",
     "name": "The Pagan Egregore",
-    "author": "ilyayurchenko",
-    "description": "Adds The Pagan Egregore — a new playable character who channels collective belief into corrupting power.",
+    "author": "misoverfitting",
+    "description": "Adds The Pagan Egregore — a new playable character.",
     "version": "v0.1.0",
-    "has_pck": true,
+    "has_pck": false,
     "has_dll": true,
     "affects_gameplay": true,
     "dependencies": [
         {
-            "id": "baselib",
-            "version": "0.1.0"
+            "id": "baselib"
         }
     ]
 }

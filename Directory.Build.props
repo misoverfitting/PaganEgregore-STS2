@@ -1,24 +1,31 @@
 <Project>
   <PropertyGroup>
     <!--
-      Set this to your local Slay the Spire 2 installation directory.
-      Windows example: C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2
-      macOS example:   /Users/yourname/Library/Application Support/Steam/steamapps/common/Slay the Spire 2
-      Linux example:   /home/yourname/.steam/steam/steamapps/common/Slay the Spire 2
+      ════════════════════════════════════════════════════════════════
+      STEP 1 — Paste your STS2 install folder path here.
+
+      Windows : C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2
+      macOS   : /Users/YOU/Library/Application Support/Steam/steamapps/common/Slay the Spire 2
+      Linux   : /home/YOU/.steam/steam/steamapps/common/Slay the Spire 2
+      ════════════════════════════════════════════════════════════════
     -->
     <Sts2Dir></Sts2Dir>
 
     <!--
-      Platform-specific game data subdirectory. Uncomment the one matching your OS.
-      Windows: data_sts2_windows_x86_64
-      macOS:   SlayTheSpire2.app/Contents/Resources/data_sts2_macos_arm64
-      Linux:   data_sts2_linuxbsd_x86_64
+      STEP 2 — Uncomment the one line that matches your OS.
     -->
     <!-- <Sts2DataDir>data_sts2_windows_x86_64</Sts2DataDir> -->
     <!-- <Sts2DataDir>SlayTheSpire2.app/Contents/Resources/data_sts2_macos_arm64</Sts2DataDir> -->
     <!-- <Sts2DataDir>data_sts2_linuxbsd_x86_64</Sts2DataDir> -->
+  </PropertyGroup>
 
-    <Sts2DllPath>$(Sts2Dir)/$(Sts2DataDir)/sts2.dll</Sts2DllPath>
-    <Sts2ModsPath>$(Sts2Dir)/$(Sts2DataDir)/mods/PaganEgregore</Sts2ModsPath>
+  <PropertyGroup>
+    <Sts2DataPath>$(Sts2Dir)/$(Sts2DataDir)</Sts2DataPath>
+    <!-- Path to the game's main DLL -->
+    <Sts2DllPath>$(Sts2DataPath)/sts2.dll</Sts2DllPath>
+    <!-- Path to BaseLib (installed as a mod dependency) -->
+    <BaselibDllPath>$(Sts2DataPath)/mods/baselib/BaseLib.dll</BaselibDllPath>
+    <!-- Where to copy our built mod -->
+    <Sts2ModsPath>$(Sts2DataPath)/mods/PaganEgregore</Sts2ModsPath>
   </PropertyGroup>
 </Project>

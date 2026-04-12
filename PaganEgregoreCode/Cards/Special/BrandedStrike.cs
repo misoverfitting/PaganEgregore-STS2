@@ -1,43 +1,41 @@
-using BaseLib.Cards;
-using MegaCrit.Sts2.Core.Cards;
+using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+using PaganEgregore.Character;
 
 namespace PaganEgregore.Cards.Special;
 
 /// <summary>
 /// BRANDED STRIKE — starter Strike replacement.
-/// Deals damage. If you have 3+ Devotion, also inflicts Vulnerable.
-///
-/// TODO: replace placeholder values once the Devotion power class exists.
+/// Functionally identical to a basic Strike for now.
 /// </summary>
-public class BrandedStrike : CustomCardModel
+[Pool(typeof(EgregoreCardPool))]
+public sealed class BrandedStrike() : CustomCardModel(
+    energyCost: 1,
+    type:       CardType.Attack,
+    rarity:     CardRarity.Basic,
+    targetType: TargetType.AnyEnemy)
 {
-    public override string CardId   => $"{PaganEgregoreMod.ID}:BrandedStrike";
-    public override string CardName => "Branded Strike";
-    public override CardType Type   => CardType.Attack;
-    public override CardRarity Rarity => CardRarity.Basic;
-    public override int EnergyCost  => 1;
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
-    // Base damage — adjust once you've balanced the character.
-    public override int BaseDamage  => 6;
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DamageVar(6m, ValueProp.Move)];
 
-    public override string Description =>
-        "Deal [D] damage. If you have 3+ !Devotion!, apply 1 Vulnerable.";
-
-    // Artwork path (drop egregore_strike.png into PaganEgregoreAssets/artwork/cards/)
-    public override string ArtworkPath =>
-        "res://PaganEgregore/artwork/cards/branded_strike.png";
-
-    public override void Use(/* combat context params — mirror BaseLib API */)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // TODO: call game API to deal damage
-        // TODO: check Devotion count; if >= 3, apply Vulnerable
+        ArgumentNullException.ThrowIfNull(cardPlay.Target);
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this)
+            .Targeting(cardPlay.Target)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .Execute(choiceContext);
     }
 
-    public override BrandedStrike GetUpgradedCopy()
+    protected override void OnUpgrade()
     {
-        var copy = (BrandedStrike)base.GetUpgradedCopy();
-        copy.BaseDamage = 9;
-        copy.Description = "Deal [D] damage. If you have 3+ !Devotion!, apply 2 Vulnerable.";
-        return copy;
+        DynamicVars.Damage.UpgradeValueBy(3m); // 6 → 9
     }
 }

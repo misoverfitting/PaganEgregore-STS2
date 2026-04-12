@@ -1,30 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Godot.NET.Sdk/4.5.1">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>PaganEgregore</AssemblyName>
     <RootNamespace>PaganEgregore</RootNamespace>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>false</Optimize>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <!-- Reference the game DLL (not shipped with the repo; set Sts2DllPath in Directory.Build.props) -->
   <ItemGroup>
+    <!-- Game DLL — set Sts2DllPath in Directory.Build.props -->
     <Reference Include="sts2">
       <HintPath>$(Sts2DllPath)</HintPath>
       <Private>false</Private>
     </Reference>
+    <!-- BaseLib DLL — lives in the game's mods/baselib/ folder -->
+    <Reference Include="BaseLib">
+      <HintPath>$(BaselibDllPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
-  <!-- BaseLib-StS2: the foundational mod dependency (auto-registers custom content) -->
-  <ItemGroup>
-    <PackageReference Include="Alchyr.BaseLib" Version="*" />
-  </ItemGroup>
-
-  <!-- Copy built DLL to the mods folder automatically after a successful build -->
+  <!-- Auto-copy DLL + manifest to mods folder after build -->
   <Target Name="CopyToMods" AfterTargets="Build" Condition="'$(Sts2ModsPath)' != ''">
+    <MakeDir Directories="$(Sts2ModsPath)" />
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
           DestinationFolder="$(Sts2ModsPath)"
           SkipUnchangedFiles="true" />
