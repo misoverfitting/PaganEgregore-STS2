@@ -1,31 +1,38 @@
 using BaseLib.Abstracts;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Combat;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using PaganEgregore.Character;
 
 namespace PaganEgregore.Relics;
 
 /// <summary>
 /// ANCHOR STONE — starter relic.
-/// At the start of each combat, gain 6 block.
-/// Simple defensive bonus for the early game.
+/// At the start of your first turn in each combat, gain 1 Energy.
 /// </summary>
 [Pool(typeof(EgregoreRelicPool))]
 public sealed class AnchorStone : CustomRelicModel
 {
-    public override RelicRarity Rarity => RelicRarity.Starter;
+    public override MegaCrit.Sts2.Core.Entities.Relics.RelicRarity Rarity =>
+        MegaCrit.Sts2.Core.Entities.Relics.RelicRarity.Starter;
 
-    protected override async Task AfterSideTurnStart(
-        CombatState combatState,
-        Creature owner,
-        bool isCurrentSide)
+    // Must be true for AfterPlayerTurnStart and BeforeCombatStart to fire.
+    public override bool ShouldReceiveCombatHooks => true;
+
+    private bool _usedThisCombat;
+
+    public override Task BeforeCombatStart()
     {
-        // Only trigger on the player's first turn of combat (round 1)
-        if (!isCurrentSide || combatState.RoundNumber != 1) return;
+        _usedThisCombat = false;
+        return Task.CompletedTask;
+    }
 
-        await CreatureCmd.GainBlock(owner, 6);
+    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    {
+        if (_usedThisCombat || player != Owner) return;
+        _usedThisCombat = true;
+        await PlayerCmd.GainEnergy(1m, player);
         Flash();
     }
 }

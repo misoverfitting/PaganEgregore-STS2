@@ -1,4 +1,5 @@
 using BaseLib.Abstracts;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,15 +10,14 @@ using PaganEgregore.Character;
 namespace PaganEgregore.Cards.Special;
 
 /// <summary>
-/// VEIL DEFEND — starter Defend replacement.
-/// Functionally identical to a basic Defend for now.
+/// VEIL DEFEND — starter Defend replacement. Gains 5 block (8 upgraded).
 /// </summary>
 [Pool(typeof(EgregoreCardPool))]
 public sealed class VeilDefend() : CustomCardModel(
-    energyCost: 1,
-    type:       CardType.Skill,
-    rarity:     CardRarity.Basic,
-    targetType: TargetType.Self)
+    baseCost: 1,
+    type:     CardType.Skill,
+    rarity:   CardRarity.Basic,
+    target:   TargetType.Self)
 {
     public override bool GainsBlock => true;
 
@@ -28,11 +28,9 @@ public sealed class VeilDefend() : CustomCardModel(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay, fast: false);
     }
 
-    protected override void OnUpgrade()
-    {
+    protected override void OnUpgrade() =>
         DynamicVars.Block.UpgradeValueBy(3m); // 5 → 8
-    }
 }

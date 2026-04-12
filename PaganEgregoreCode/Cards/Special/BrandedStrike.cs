@@ -1,4 +1,5 @@
 using BaseLib.Abstracts;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -9,15 +10,14 @@ using PaganEgregore.Character;
 namespace PaganEgregore.Cards.Special;
 
 /// <summary>
-/// BRANDED STRIKE — starter Strike replacement.
-/// Functionally identical to a basic Strike for now.
+/// BRANDED STRIKE — starter Strike replacement. Deals 6 damage (9 upgraded).
 /// </summary>
 [Pool(typeof(EgregoreCardPool))]
 public sealed class BrandedStrike() : CustomCardModel(
-    energyCost: 1,
-    type:       CardType.Attack,
-    rarity:     CardRarity.Basic,
-    targetType: TargetType.AnyEnemy)
+    baseCost:  1,
+    type:      CardType.Attack,
+    rarity:    CardRarity.Basic,
+    target:    TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
@@ -34,8 +34,6 @@ public sealed class BrandedStrike() : CustomCardModel(
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade()
-    {
+    protected override void OnUpgrade() =>
         DynamicVars.Damage.UpgradeValueBy(3m); // 6 → 9
-    }
 }

@@ -9,13 +9,13 @@
       Linux   : /home/YOU/.steam/steam/steamapps/common/Slay the Spire 2
       ════════════════════════════════════════════════════════════════
     -->
-    <Sts2Dir></Sts2Dir>
+     <Sts2Dir>/Users/ilyayurchenko/Library/Application Support/Steam/steamapps/common/Slay the Spire 2</Sts2Dir>
 
     <!--
       STEP 2 — Uncomment the one line that matches your OS.
     -->
     <!-- <Sts2DataDir>data_sts2_windows_x86_64</Sts2DataDir> -->
-    <!-- <Sts2DataDir>SlayTheSpire2.app/Contents/Resources/data_sts2_macos_arm64</Sts2DataDir> -->
+    <Sts2DataDir>SlayTheSpire2.app/Contents/Resources/data_sts2_macos_arm64</Sts2DataDir> 
     <!-- <Sts2DataDir>data_sts2_linuxbsd_x86_64</Sts2DataDir> -->
   </PropertyGroup>
 

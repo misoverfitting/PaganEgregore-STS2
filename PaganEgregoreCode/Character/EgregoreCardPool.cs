@@ -1,16 +1,16 @@
 using BaseLib.Abstracts;
+using Godot;
 
 namespace PaganEgregore.Character;
 
-/// <summary>
-/// Registers this character's card pool with BaseLib.
-/// All cards tagged [Pool(typeof(EgregoreCardPool))] are automatically
-/// added to The Egregore's reward pools.
-/// </summary>
 public class EgregoreCardPool : CustomCardPoolModel
 {
-    public EgregoreCardPool()
-    {
-        CharacterId = TheEgregore.CharacterId;
-    }
+    // Displayed in the compendium
+    public override string Title => "Egregore";
+
+    // Dark violet — used for deck-entry labels, card frame shader
+    public override Color DeckEntryCardColor => new Color(0.42f, 0.0f, 0.68f);
+
+    // This is a character pool, not colorless
+    public override bool IsColorless => false;
 }
