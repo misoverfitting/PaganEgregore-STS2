@@ -1,0 +1,37 @@
+# Build output
+bin/
+obj/
+*.user
+
+# NuGet
+packages/
+.nuget/
+*.nupkg
+
+# Rider / VS
+.idea/
+.vs/
+*.suo
+*.userprefs
+*.DotSettings.user
+
+# Godot exports / editor cache
+.godot/
+*.import
+export_presets.cfg
+
+# Game DLL (never commit — too large and platform-specific)
+sts2.dll
+
+# Compiled mod output
+*.pck
+*.dll
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Artwork source files (keep only final PNGs in assets/)
+*.psd
+*.xcf
+*.aseprite

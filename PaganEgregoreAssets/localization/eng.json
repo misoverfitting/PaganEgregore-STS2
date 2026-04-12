@@ -1,0 +1,41 @@
+{
+  "characters": {
+    "PaganEgregore:TheEgregore": {
+      "name": "The Pagan Egregore",
+      "description": "A thoughtform born of collective occult belief. Channels Devotion — a resource built through ritual — into devastating power."
+    }
+  },
+
+  "cards": {
+    "PaganEgregore:BrandedStrike": {
+      "name": "Branded Strike",
+      "description": "Deal [D] damage. If you have 3+ !Devotion!, apply 1 Vulnerable.",
+      "upgrade_description": "Deal [D] damage. If you have 3+ !Devotion!, apply 2 Vulnerable."
+    },
+    "PaganEgregore:VeilDefend": {
+      "name": "Veil Defend",
+      "description": "Gain [B] Block. If !Devotion! was spent this turn, gain 3 additional Block.",
+      "upgrade_description": "Gain [B] Block. If !Devotion! was spent this turn, gain 5 additional Block."
+    },
+    "PaganEgregore:InvokeRite": {
+      "name": "Invoke Rite",
+      "description": "Gain 1 !Devotion!. Draw 1 card.",
+      "upgrade_description": "Gain 2 !Devotion!. Draw 1 card."
+    }
+  },
+
+  "relics": {
+    "PaganEgregore:AnchorStone": {
+      "name": "Anchor Stone",
+      "description": "At the start of each combat, gain 1 !Devotion!.",
+      "flavor": "\"Belief given form. Form given power.\""
+    }
+  },
+
+  "powers": {
+    "PaganEgregore:Devotion": {
+      "name": "Devotion",
+      "description": "A measure of ritual focus. Many Egregore abilities scale with or consume Devotion."
+    }
+  }
+}
