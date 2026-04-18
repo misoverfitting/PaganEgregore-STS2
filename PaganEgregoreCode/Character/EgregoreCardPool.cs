@@ -8,8 +8,11 @@ public class EgregoreCardPool : CustomCardPoolModel
     // Displayed in the compendium
     public override string Title => "Egregore";
 
-    // Dark violet — used for deck-entry labels, card frame shader
-    public override Color DeckEntryCardColor => new Color(0.42f, 0.0f, 0.68f);
+    // Deep Moss Green (#4A5D23) — primary color per design doc
+    public override Color DeckEntryCardColor => new Color(0.290f, 0.365f, 0.137f);
+
+    // Card-frame shader tint — Deep Moss Green so all Egregore card frames appear green.
+    public override Color ShaderColor => new Color(0.290f, 0.365f, 0.137f);
 
     // This is a character pool, not colorless
     public override bool IsColorless => false;

@@ -15,17 +15,20 @@
       STEP 2 — Uncomment the one line that matches your OS.
     -->
     <!-- <Sts2DataDir>data_sts2_windows_x86_64</Sts2DataDir> -->
-    <Sts2DataDir>SlayTheSpire2.app/Contents/Resources/data_sts2_macos_arm64</Sts2DataDir> 
+    <Sts2DataDir>SlayTheSpire2.app/Contents/Resources/data_sts2_macos_arm64</Sts2DataDir>
     <!-- <Sts2DataDir>data_sts2_linuxbsd_x86_64</Sts2DataDir> -->
   </PropertyGroup>
 
   <PropertyGroup>
     <Sts2DataPath>$(Sts2Dir)/$(Sts2DataDir)</Sts2DataPath>
-    <!-- Path to the game's main DLL -->
+    <!-- Path to the game's main DLL (in the data directory) -->
     <Sts2DllPath>$(Sts2DataPath)/sts2.dll</Sts2DllPath>
-    <!-- Path to BaseLib (installed as a mod dependency) -->
-    <BaselibDllPath>$(Sts2DataPath)/mods/baselib/BaseLib.dll</BaselibDllPath>
-    <!-- Where to copy our built mod -->
-    <Sts2ModsPath>$(Sts2DataPath)/mods/PaganEgregore</Sts2ModsPath>
+    <!-- BaseLib lives in Contents/MacOS/mods/ — that's where the game actually loads mods from -->
+    <Sts2ModsDir>$(Sts2Dir)/SlayTheSpire2.app/Contents/MacOS/mods</Sts2ModsDir>
+    <BaselibDllPath>$(Sts2ModsDir)/BaseLib/BaseLib.dll</BaselibDllPath>
+    <!-- Where to copy our built mod (must match the game's mod load path) -->
+    <Sts2ModsPath>$(Sts2ModsDir)/PaganEgregore</Sts2ModsPath>
+    <!-- Harmony DLL bundled with the game's .NET runtime -->
+    <HarmonyDllPath>$(Sts2DataPath)/0Harmony.dll</HarmonyDllPath>
   </PropertyGroup>
 </Project>

@@ -21,15 +21,28 @@
       <HintPath>$(BaselibDllPath)</HintPath>
       <Private>false</Private>
     </Reference>
+    <!-- Harmony — used for custom icon patch -->
+    <Reference Include="0Harmony">
+      <HintPath>$(HarmonyDllPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
-  <!-- Auto-copy DLL + manifest to mods folder after build -->
+  <!-- Art assets: copy PNGs alongside the DLL so ModAssets.LoadTexture can find them -->
+  <ItemGroup>
+    <ArtAsset Include="Pagan_Egregore_Clean_Art_Assets\*.png" />
+  </ItemGroup>
+
+  <!-- Auto-copy DLL + manifest + art assets to mods folder after build -->
   <Target Name="CopyToMods" AfterTargets="Build" Condition="'$(Sts2ModsPath)' != ''">
     <MakeDir Directories="$(Sts2ModsPath)" />
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
           DestinationFolder="$(Sts2ModsPath)"
           SkipUnchangedFiles="true" />
     <Copy SourceFiles="PaganEgregore.json"
+          DestinationFolder="$(Sts2ModsPath)"
+          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(ArtAsset)"
           DestinationFolder="$(Sts2ModsPath)"
           SkipUnchangedFiles="true" />
   </Target>

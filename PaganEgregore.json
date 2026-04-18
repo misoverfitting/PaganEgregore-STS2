@@ -7,9 +7,5 @@
     "has_pck": false,
     "has_dll": true,
     "affects_gameplay": true,
-    "dependencies": [
-        {
-            "id": "baselib"
-        }
-    ]
+    "dependencies": ["BaseLib"]
 }
