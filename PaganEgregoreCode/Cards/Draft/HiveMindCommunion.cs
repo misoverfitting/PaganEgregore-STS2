@@ -27,7 +27,7 @@ public sealed class HiveMindCommunion() : CustomCardModel(
         Description: "At the start of your turn, gain Devotion equal to the number of active Effigies."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("hive_mind_communion.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("hive_mind_communion.png");
     private static Texture2D? _portrait;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -30,7 +30,7 @@ public sealed class BloodSacrifice() : CustomCardModel(
         Description: "Deal {Damage} damage. Harvest: Summon 1 Blood Effigy."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("blood_sacrifice.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("blood_sacrifice.png");
     private static Texture2D? _portrait;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

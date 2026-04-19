@@ -27,7 +27,7 @@ public sealed class EternalVigil() : CustomCardModel(
         Description: "At the start of your turn, gain 3 Devotion."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("eternal_vigil.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("eternal_vigil.png");
     private static Texture2D? _portrait;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

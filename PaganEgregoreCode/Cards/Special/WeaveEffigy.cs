@@ -26,7 +26,7 @@ public sealed class WeaveEffigy() : CustomCardModel(
         Description: "Summon 1 Straw Effigy."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("weave_effigy.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("weave_effigy.png");
     private static Texture2D? _portrait;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -49,4 +49,28 @@ public static class ModAssets
         if (img == null) return null;
         return ImageTexture.CreateFromImage(img);
     }
+
+    /// <summary>
+    /// Loads a card portrait PNG and center-crops it to square so it fills the
+    /// circular portrait area without black letterbox bars.
+    /// </summary>
+    public static Texture2D? LoadCardPortrait(string filename)
+    {
+        var path = GetPath(filename);
+        var img = Image.LoadFromFile(path);
+        if (img == null) return null;
+
+        int w = img.GetWidth(), h = img.GetHeight();
+        if (w != h)
+        {
+            int size = Math.Min(w, h);
+            int srcX = (w - size) / 2;
+            int srcY = (h - size) / 2;
+            var cropped = Image.CreateEmpty(size, size, false, img.GetFormat());
+            cropped.BlitRect(img, new Rect2I(srcX, srcY, size, size), new Vector2I(0, 0));
+            img = cropped;
+        }
+
+        return ImageTexture.CreateFromImage(img);
+    }
 }

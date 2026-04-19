@@ -27,7 +27,7 @@ public sealed class RootsOfTheOldGods() : CustomCardModel(
         Description: "Sacrifice your oldest Effigy. Summon a Bone Effigy and a Blood Effigy."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("roots_of_the_old_gods.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("roots_of_the_old_gods.png");
     private static Texture2D? _portrait;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -30,7 +30,7 @@ public sealed class RitualChant() : CustomCardModel(
         Description: "Gain 3 Devotion. Gain {Block} Block."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("ritual_chant.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("ritual_chant.png");
     private static Texture2D? _portrait;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

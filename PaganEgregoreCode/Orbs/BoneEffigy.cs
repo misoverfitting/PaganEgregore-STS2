@@ -21,6 +21,7 @@ public sealed class BoneEffigy : CustomOrbModel
     public override decimal PassiveVal    => 1m;
     public override decimal EvokeVal      => 1m;
     public override Color   DarkenedColor => new Color(0.25f, 0.20f, 0.10f); // dark bone/tan
+    public override string? CustomIconPath => "res://images/orbs/dark_orb.png";
 
     public override List<(string, string)>? Localization => new OrbLoc(
         Title:            "Bone Effigy",

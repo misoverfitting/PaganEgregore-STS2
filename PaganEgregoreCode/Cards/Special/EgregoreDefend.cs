@@ -28,7 +28,7 @@ public sealed class EgregoreDefend() : CustomCardModel(
         Description: "Gain {Block} Block."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("defend.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("defend.png");
     private static Texture2D? _portrait;
 
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];

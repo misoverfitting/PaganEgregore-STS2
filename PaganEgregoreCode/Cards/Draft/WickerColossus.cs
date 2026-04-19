@@ -27,7 +27,7 @@ public sealed class WickerColossus() : CustomCardModel(
         Description: "Deal damage equal to 3× your Devotion. Lose all Devotion."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("wicker_colossus.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("wicker_colossus.png");
     private static Texture2D? _portrait;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

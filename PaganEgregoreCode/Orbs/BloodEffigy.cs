@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 using static PaganEgregore.ModAssets;
 
 namespace PaganEgregore.Orbs;
@@ -20,6 +21,7 @@ public sealed class BloodEffigy : CustomOrbModel
     public override decimal PassiveVal    => 3m;
     public override decimal EvokeVal      => 10m;
     public override Color   DarkenedColor => new Color(0.35f, 0.05f, 0.05f); // dark blood red
+    public override string? CustomIconPath => "res://images/orbs/dark_orb.png";
 
     public override List<(string, string)>? Localization => new OrbLoc(
         Title:            "Blood Effigy",
@@ -42,7 +44,9 @@ public sealed class BloodEffigy : CustomOrbModel
 
     public override async Task BeforeTurnEndOrbTrigger(PlayerChoiceContext choiceContext)
     {
-        var hittable = CombatState.HittableEnemies.ToList();
+        var cs = CombatState ?? Owner.Creature?.CombatState;
+        if (cs == null) return;
+        var hittable = cs.HittableEnemies.ToList();
         if (hittable.Count == 0) return;
         var target = hittable[Random.Shared.Next(hittable.Count)];
         await OrbCmd.Passive(choiceContext, this, target);
@@ -51,21 +55,17 @@ public sealed class BloodEffigy : CustomOrbModel
     public override async Task Passive(PlayerChoiceContext choiceContext, Creature? target)
     {
         if (target == null) return;
-        await DamageCmd.Attack(PassiveVal)
-            .Targeting(target)
-            .Execute(choiceContext);
+        await CreatureCmd.Damage(choiceContext, target, PassiveVal, ValueProp.Move, Owner.Creature);
         PlayPassiveSfx();
     }
 
     public override async Task<IEnumerable<Creature>> Evoke(PlayerChoiceContext choiceContext)
     {
-        var targets = CombatState.HittableEnemies.ToList();
-        foreach (var enemy in targets)
-        {
-            await DamageCmd.Attack(EvokeVal)
-                .Targeting(enemy)
-                .Execute(choiceContext);
-        }
+        var dealer = Owner.Creature;
+        if (dealer == null) return [];
+        var targets = (CombatState ?? dealer.CombatState)?.HittableEnemies.ToList() ?? [];
+        if (targets.Count == 0) return [];
+        await CreatureCmd.Damage(choiceContext, targets, EvokeVal, ValueProp.Move, dealer);
         PlayEvokeSfx();
         return targets;
     }

@@ -22,6 +22,7 @@ public sealed class StrawEffigy : CustomOrbModel
     public override decimal PassiveVal    => 3m;
     public override decimal EvokeVal      => 10m;
     public override Color   DarkenedColor => new Color(0.15f, 0.25f, 0.07f); // dark moss green
+    public override string? CustomIconPath => "res://images/orbs/dark_orb.png";
 
     public override List<(string, string)>? Localization => new OrbLoc(
         Title:            "Straw Effigy",

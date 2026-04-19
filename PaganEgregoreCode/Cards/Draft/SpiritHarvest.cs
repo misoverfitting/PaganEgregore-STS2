@@ -28,7 +28,7 @@ public sealed class SpiritHarvest() : CustomCardModel(
         Description: "Evoke all your Effigies. Gain 6 Block for each Effigy evoked."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("spirit_harvest.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("spirit_harvest.png");
     private static Texture2D? _portrait;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

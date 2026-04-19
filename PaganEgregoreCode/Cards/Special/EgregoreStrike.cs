@@ -26,7 +26,7 @@ public sealed class EgregoreStrike() : CustomCardModel(
         Description: "Deal {Damage} damage."
     );
 
-    public override Texture2D? CustomPortrait => _portrait ??= LoadTexture("strike.png");
+    public override Texture2D? CustomPortrait => _portrait ??= LoadCardPortrait("strike.png");
     private static Texture2D? _portrait;
 
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
